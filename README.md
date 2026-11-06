@@ -27,7 +27,7 @@ It starts automatically when WoW launches (including from Battle.net) and stops 
 ## Install
 
 ```sh
-git clone https://github.com/<you>/wow-span.git ~/wow-span
+git clone https://github.com/scottlandes1217/wow-span.git ~/wow-span
 ~/wow-span/install.sh
 ```
 
@@ -75,3 +75,7 @@ changes size: quit WoW, relaunch, and run the Offhand wizard again.
 ```sh
 ~/wow-span/uninstall.sh
 ```
+
+## License
+
+MIT — see [LICENSE](LICENSE).
