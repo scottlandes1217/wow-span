@@ -64,6 +64,10 @@ changes size: quit WoW, relaunch, and run the Offhand wizard again.
 
 - **Screens look wrong / stuck:** Cmd-Tab out of WoW, or quit WoW (wow-span stops with it).
 - **Monitors left mirrored after a crash:** run `./unmirror`.
+- **WoW freezes ~30 s after launch, every time:** WoW saved a window bigger than WoW Span, so it
+  overlaps monitors with different scaling and keeps resizing itself. Quit WoW, then in
+  `WTF/Config.wtf` set `GxWindowedResolution` to the span size, e.g.
+  `SET GxWindowedResolution "2528x1080"`.
 - **Permission prompts keep coming back:** in Privacy & Security, remove `wow-span` from Screen
   Recording and Accessibility, then launch WoW and allow again. Rebuilding with an ad-hoc signature
   (no Apple Development certificate) needs this every time.
