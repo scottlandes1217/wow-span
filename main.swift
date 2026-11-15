@@ -223,8 +223,10 @@ Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { _ in  // fast enou
     rescueStrayWindows()
     pullWoWOntoVirtual()
     let src = gameRectOnVirtual()
-    if let src, src != source { source = src; applyCrop(src) }
     let now = src != nil && !missionControlOpen()
+    // Mission Control shrinks WoW to a thumbnail; only take the game area from the real window, so leaving
+    // maps the cursor through the last true one.
+    if now, let src, src != source { source = src; applyCrop(src) }
     guard now != active else { return }
     // Keep the cursor where it appears: map it through the mirror in whichever direction we switch.
     if let p = CGEvent(source: nil)?.location, let q = mapCursor(p, toVirtual: now) { CGWarpMouseCursorPosition(q) }
@@ -240,7 +242,12 @@ func guardCursor() {
     guard let p = CGEvent(source: nil)?.location else { return }
     let vb = CGDisplayBounds(vd.displayID)
     var c = p
-    if active { c = clamp(p, to: source.map { $0.offsetBy(dx: vb.minX, dy: vb.minY) } ?? vb) }  // the mirrored game area, not the whole display
+    if active {
+        // Stop at the game's right edge, not the display's. Top and bottom are the display's own edges:
+        // macOS stops the cursor there itself, while warping it back off an edge freezes the mouse.
+        let game = source.map { $0.offsetBy(dx: vb.minX, dy: vb.minY) } ?? vb
+        c = clamp(p, to: CGRect(x: game.minX, y: vb.minY, width: game.width, height: vb.height))
+    }
     else if vb.contains(p) {
         let edge = saved.map(\.2).max { $0.maxX < $1.maxX }!  // physical screen touching the virtual one
         c = clamp(p, to: edge)
