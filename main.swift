@@ -240,7 +240,7 @@ func guardCursor() {
     guard let p = CGEvent(source: nil)?.location else { return }
     let vb = CGDisplayBounds(vd.displayID)
     var c = p
-    if active { c = clamp(p, to: vb) }
+    if active { c = clamp(p, to: source.map { $0.offsetBy(dx: vb.minX, dy: vb.minY) } ?? vb) }  // the mirrored game area, not the whole display
     else if vb.contains(p) {
         let edge = saved.map(\.2).max { $0.maxX < $1.maxX }!  // physical screen touching the virtual one
         c = clamp(p, to: edge)

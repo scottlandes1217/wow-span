@@ -55,6 +55,9 @@ changes size: quit WoW, relaunch, and run the Offhand wizard again.
 
 ## Options
 
+- **Offhand off = normal screen:** turn Offhand off (`/offhand toggle`), then quit WoW. Next launch
+  wow-span stays off and WoW opens on your main monitor at `normal_window` (set in
+  `wow-span-watch.sh`). Turn Offhand back on and relaunch to span again.
 - The LaunchAgent runs `wow-span --retina`: a 2× (HiDPI) virtual display, sharp on 4K screens but
   heavier on the GPU. Edit `wow-span-watch.sh` and drop `--retina` for a lighter 1× display.
 - `refreshRate` at the top of `main.swift` (default 60).
