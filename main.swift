@@ -272,7 +272,9 @@ Task { do {
     cfg.width = Int(vsize.width) * scale; cfg.height = Int(vsize.height) * scale
     cfg.minimumFrameInterval = CMTime(value: 1, timescale: CMTimeScale(refreshRate))
     cfg.queueDepth = 3
-    cfg.showsCursor = true
+    // WoW draws its own cursor into the picture (HardwareCursor 0, set by wow-span-watch.sh): macOS's cursor
+    // on the virtual display is a plain arrow, and after mouselook it would show on top of WoW's.
+    cfg.showsCursor = false
     let s = SCStream(filter: SCContentFilter(display: display, excludingWindows: []), configuration: cfg, delegate: nil)
     try s.addStreamOutput(mirror, type: .screen, sampleHandlerQueue: .global(qos: .userInteractive))
     try await s.startCapture()

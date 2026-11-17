@@ -11,8 +11,15 @@ offhand_on() { ! grep -qs '^\["enabled"\] = false' "$wtf"/Account/*/SavedVariabl
 titlebar=28                # calibration knob: WoW's title bar height in points
 normal_window=3406x1790    # WoW's window size with Offhand off (your setting before wow-span)
 set_window() { sed -i '' "s/^SET GxWindowedResolution .*/SET GxWindowedResolution \"$1\"/" "$wtf/Config.wtf" }
+# On the virtual display macOS can't show WoW's cursor (it shows a plain arrow), so WoW draws its own and
+# the mirror leaves macOS's out.
+software_cursor() {
+  grep -q '^SET HardwareCursor ' "$wtf/Config.wtf" || echo 'SET HardwareCursor "0"' >> "$wtf/Config.wtf"
+  sed -i '' 's/^SET HardwareCursor .*/SET HardwareCursor "0"/' "$wtf/Config.wtf"
+}
 pin_window() {
   if ! offhand_on; then set_window $normal_window; return; fi
+  software_cursor
   local size=$(grep -o '[0-9]*x[0-9]* is live' "$dir/run.log" | tail -1 | cut -d' ' -f1)
   [[ -n $size ]] || return
   local W=${size%x*} H=${size#*x}

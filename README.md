@@ -74,6 +74,9 @@ changes size: quit WoW, relaunch, and run the Offhand wizard again.
 - **Permission prompts keep coming back:** in Privacy & Security, remove `wow-span` from Screen
   Recording and Accessibility, then launch WoW and allow again. Rebuilding with an ad-hoc signature
   (no Apple Development certificate) needs this every time.
+- **Mac arrow instead of WoW's cursor, or both:** on the virtual display macOS can't show WoW's cursor,
+  so WoW must draw its own: `/console HardwareCursor 0` (the watcher also sets it whenever WoW quits).
+  It comes out small on the retina span: Options → Accessibility → Cursor Size.
 - **WoW opened on one screen:** it launched before the virtual display was ready — relaunch it.
 - Log: `run.log` in this folder.
 
